@@ -42,3 +42,21 @@ export interface ShapeObject {
   type: ShapeType;
   props?: ShapeProps;
 }
+
+
+export interface Point {
+    x: number;
+    y: number;
+}
+
+export interface CylindricalHole {
+    x: number;
+    y: number;
+    radius: number;
+    startAngle: number,
+    endAngle: number;
+    clockWise: boolean;
+}
+
+
+

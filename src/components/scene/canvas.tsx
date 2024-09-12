@@ -13,6 +13,7 @@ import { AmbientLightFunc, DirectLightFunc } from "../objects/Lights";
 import { RayCaster } from "../raycast/raycaster";
 import { CadPlanes } from "../raycast/ScenePlanes";
 
+
 import {
   CameraDirection,
   TwoDimPlaneRotation,
@@ -21,6 +22,7 @@ import {
 } from "@/types/scene";
 
 import { getCreateShape } from "../objects/createShape";
+import { CustomShapes } from "../objects/CustomShapes";
 
 interface SceneCanvasProps {
   objects: Array<{
@@ -125,7 +127,7 @@ const SceneCanvas: React.FC<SceneCanvasProps> = ({
           // />
         })
       ) : (
-        <CustomShapes />
+        <></>
       )}
       {/* 
             {objects.map((object, idx) => {

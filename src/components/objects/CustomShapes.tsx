@@ -1,12 +1,27 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { CylindricalHole, Point} from "@/types/scene";
 
-export function CustomShapes() {
+
+type CustomShapePanelProps = {
+    lineHistory: Point[];
+    setLineHistory : Dispatch<SetStateAction<Point[]>>;
+    holeHistory : CylindricalHole[];
+    setHoleHistory : Dispatch<SetStateAction<CylindricalHole[]>>;
+    extrudeActivated : boolean;
+    setExtrudeActivated: Dispatch<SetStateAction<boolean>>;
+}
+
+
+export function CustomShapes(props: CustomShapePanelProps) {
+  const {lineHistory, setLineHistory, holeHistory, setHoleHistory, extrudeActivated, setExtrudeActivated} = props;
+  const [lineHistoryIndex, setLineHistoryIndex] = useState<number>(0);
+  const [holeHistoryIndex, setHoleHistoryIndex] = useState<number>(0);
+
   const mesh = useRef();
 
-  const length = 4,
-    width = 4;
+  const length = 4, width = 4;
 
   // Create the main shape
   const shape = new THREE.Shape();
@@ -18,7 +33,8 @@ export function CustomShapes() {
 
   // Define the hole
   const hole = new THREE.Path();
-  hole.moveTo(0, 2).quadraticCurveTo(2, 4, 4, 2);
+  hole.moveTo( 0, 2 )
+  .quadraticCurveTo( 2, 4, 4, 2)
   //.bezierCurveTo(5, 2.5, 5, 3, 4, 4)
   //.quadraticCurveTo( 2, 6, 0, 4)
   //.quadraticCurveTo(-.5, 3, 0, 2)
@@ -40,7 +56,7 @@ export function CustomShapes() {
     bevelThickness: 1,
     bevelSize: 1,
     bevelOffset: 1,
-    bevelSegments: 12,
+    bevelSegments: 12
   };
 
   // Create the geometry with the hole
@@ -48,14 +64,27 @@ export function CustomShapes() {
 
   const edges = useMemo(() => new THREE.EdgesGeometry(geometry), [geometry]);
 
-  return (
-    <>
-      <mesh ref={mesh} geometry={geometry} position={[0, 0, 0]}>
-        <meshBasicMaterial attach="material" color={0x00ff00} />
-      </mesh>
-      <lineSegments geometry={edges}>
-        <lineBasicMaterial attach="material" color={0x000000} />
-      </lineSegments>
-    </>
-  );
-}
+  function custom(){
+    return(
+      <>
+        <mesh
+          ref={mesh}
+          geometry={geometry}
+          position={[0, 0, 0]}
+        >
+          <meshBasicMaterial attach="material" color={0x00ff00} />
+        </mesh>
+        <lineSegments geometry={edges}>
+          <lineBasicMaterial attach="material" color={0x000000} />
+        </lineSegments>
+      </>
+    )
+  }
+
+
+  useEffect(() => {
+    console.log(extrudeActivated);
+  })
+
+  return true ? custom() : <></>;
+};
